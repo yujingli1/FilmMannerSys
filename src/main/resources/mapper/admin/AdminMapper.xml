@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stesla.love.admin.mapper.AdminMapper">
+
+    <resultMap id="AdminResult" type="Admin">
+        <result column="AdminID" property="adminID"/>
+        <result column="Username" property="username"/>
+        <result column="Password" property="password"/>
+        <result column="Email" property="email"/>
+        <result column="FullName" property="fullName"/>
+        <result column="RegistrationDate" property="registrationDate"/>
+    </resultMap>
+
+    <sql id="selectAdminVo">
+        SELECT * FROM sys_admins
+    </sql>
+    <select id="selectAdminList" resultMap="AdminResult">
+        <include refid="selectAdminVo"/>
+        <where>
+            <if test="username != null and username != ''"> and Username = #{username}</if>
+            <if test="password != null and password != ''"> and Password = #{password}</if>
+            <if test="date != null"> and RegistrationDate = #{date}</if>
+            <if test="email != null and email != ''"> and Email = #{email}</if>
+            <if test="fullName != null and fullName != ''"> and FullName = #{fullName}</if>
+            <if test="registrationDate != null"> and RegistrationDate = #{registrationDate}</if>
+        </where>
+    </select>
+
+    <select id="selectAdminByAdminID" resultMap="AdminResult">
+        <include refid="selectAdminVo"/>
+        WHERE AdminID = #{adminID}
+    </select>
+
+    <select id="findAdminByUsername" resultType="com.stesla.love.admin.domain.Admin">
+        SELECT * FROM sys_admins WHERE Username = #{username}
+    </select>
+<!--    void registerByUsernameAndPassword(String username, String s);-->
+    <insert id="registerByUsernameAndPassword">
+        INSERT INTO sys_admins (Username, Password,RegistrationDate) VALUES (#{username}, #{password}, #{date})
+    </insert>
+</mapper>
