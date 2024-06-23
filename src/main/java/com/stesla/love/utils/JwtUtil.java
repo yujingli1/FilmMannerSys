@@ -3,6 +3,7 @@ package com.stesla.love.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class JwtUtil {
 
     /**
      * 生成token
+     *
      * @param map //传入payload
      * @return 返回token
      */
@@ -32,7 +34,7 @@ public class JwtUtil {
                 builder.withClaim(k, (Double) v);
             } else if (v instanceof Date) {
                 builder.withClaim(k, (Date) v);
-            }else {
+            } else {
                 builder.withClaim(k, v.toString());
             }
         });
@@ -43,17 +45,20 @@ public class JwtUtil {
 
     /**
      * 验证token
+     *
      * @param token
      */
-    public static void verify(String token){
+    public static void verify(String token) {
         JWT.require(Algorithm.HMAC256(SECRET_KEY)).build().verify(token);
     }
+
     /**
      * 获取token中payload
+     *
      * @param token
      * @return
      */
-    public static DecodedJWT getToken(String token){
+    public static DecodedJWT getToken(String token) {
         return JWT.require(Algorithm.HMAC256(SECRET_KEY)).build().verify(token);
     }
 

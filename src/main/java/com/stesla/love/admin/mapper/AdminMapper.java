@@ -13,4 +13,6 @@ public interface AdminMapper {
     void registerByUsernameAndPassword(String username, String password, Date date);
     List<Admin> selectAdminList(Admin admin);
     Admin selectAdminByAdminID(String adminId);
+
+    void update(Admin admin,Date date);
 }

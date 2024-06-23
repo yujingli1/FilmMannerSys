@@ -27,4 +27,23 @@ public class AdminServiceImpl implements AdminService {
         java.sql.Date sqldate = new java.sql.Date(date.getTime());
         adminMapper.registerByUsernameAndPassword(username, s, sqldate);
     }
+
+    @Override
+    public void update(Admin admin) {
+        // 对密码进行加密(使用MD5加密)
+        String s = DigestUtils.md5DigestAsHex(admin.getPassword().getBytes());
+        admin.setPassword(s);
+        java.util.Date date = new java.util.Date();
+        java.sql.Date sqldate = new java.sql.Date(date.getTime());
+        adminMapper.update(admin,sqldate);
+    }
+
+    @Override
+    public boolean checkPassword(String username, String password) {
+        // 对密码进行加密(使用MD5加密)
+        String s = DigestUtils.md5DigestAsHex(password.getBytes());
+        Admin admin = adminMapper.findAdminByUsername(username);
+        return s.equals(admin.getPassword());
+    }
+
 }
