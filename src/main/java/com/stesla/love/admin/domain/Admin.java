@@ -1,5 +1,7 @@
 package com.stesla.love.admin.domain;
 
+import com.alibaba.fastjson2.JSONObject;
+
 /**
  * CREATE TABLE sys_admins (
  *     AdminID INT PRIMARY KEY AUTO_INCREMENT,
@@ -17,17 +19,27 @@ public class Admin {
     private String email;
     private String fullName;
     private String registrationDate;
+    private String updateDate;
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
 
     public Admin() {
     }
 
-    public Admin(int adminID, String username, String password, String email, String fullName, String registrationDate) {
+    public Admin(int adminID, String username, String password, String email, String fullName, String registrationDate, String updateDate) {
         this.adminID = adminID;
         this.username = username;
         this.password = password;
         this.email = email;
         this.fullName = fullName;
         this.registrationDate = registrationDate;
+        this.updateDate = updateDate;
     }
 
     public int getAdminID() {
@@ -80,13 +92,6 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Admin{" +
-                "adminID=" + adminID +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", registrationDate='" + registrationDate + '\'' +
-                '}';
+        return JSONObject.toJSONString(this);
     }
 }

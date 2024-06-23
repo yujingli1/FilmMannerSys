@@ -16,15 +16,29 @@
     <sql id="selectAdminVo">
         SELECT * FROM sys_admins
     </sql>
+
+    <update id="update">
+        UPDATE sys_admins
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="password != null and password != ''"> Password = #{password},</if>
+            <if test="email != null and email != ''">Email = #{email},</if>
+            <if test="fullName != null and fullName != ''"> FullName = #{fullName},</if>
+            UpdateDate = #{updateDate}
+        </trim>
+        <where>
+            AdminID = #{adminID}
+        </where>
+    </update>
+
     <select id="selectAdminList" resultMap="AdminResult">
         <include refid="selectAdminVo"/>
         <where>
             <if test="username != null and username != ''"> and Username = #{username}</if>
             <if test="password != null and password != ''"> and Password = #{password}</if>
-            <if test="date != null"> and RegistrationDate = #{date}</if>
             <if test="email != null and email != ''"> and Email = #{email}</if>
             <if test="fullName != null and fullName != ''"> and FullName = #{fullName}</if>
             <if test="registrationDate != null"> and RegistrationDate = #{registrationDate}</if>
+            <if test="UpdateDate != null"> and UpdateDate = #{date}</if>
         </where>
     </select>
 
@@ -33,11 +47,12 @@
         WHERE AdminID = #{adminID}
     </select>
 
-    <select id="findAdminByUsername" resultType="com.stesla.love.admin.domain.Admin">
+    <select id="findAdminByUsername" resultType="com.stesla.love.admin.domain.Admin" resultMap="AdminResult">
         SELECT * FROM sys_admins WHERE Username = #{username}
     </select>
-<!--    void registerByUsernameAndPassword(String username, String s);-->
+
     <insert id="registerByUsernameAndPassword">
-        INSERT INTO sys_admins (Username, Password,RegistrationDate) VALUES (#{username}, #{password}, #{date})
+        INSERT INTO sys_admins (Username, Password,RegistrationDate,UpdateDate) VALUES (#{username}, #{password}, #{date}, #{date})
     </insert>
+
 </mapper>
