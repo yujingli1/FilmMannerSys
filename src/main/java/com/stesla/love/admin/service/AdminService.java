@@ -12,4 +12,7 @@ public interface AdminService {
     void registerByUsernameAndPassword(String username, String password);
     // 更新用户密码
     void update(Admin admin);
+
+    // 根据用户ID查询用户
+    Admin selectAdminByAdminID(int adminId);
 }

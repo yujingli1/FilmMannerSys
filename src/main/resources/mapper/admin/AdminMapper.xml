@@ -11,22 +11,27 @@
         <result column="Email" property="email"/>
         <result column="FullName" property="fullName"/>
         <result column="RegistrationDate" property="registrationDate"/>
+        <result column="UpdateDate" property="updateDate"/>
+        <result column="ImgUrl" property="imgURL"/>
+        <result column="ImgHash" property="imgHash"/>
     </resultMap>
 
     <sql id="selectAdminVo">
         SELECT * FROM sys_admins
     </sql>
 
-    <update id="update">
+    <update id="updateInfo">
         UPDATE sys_admins
         <trim prefix="SET" suffixOverrides=",">
-            <if test="password != null and password != ''"> Password = #{password},</if>
-            <if test="email != null and email != ''">Email = #{email},</if>
-            <if test="fullName != null and fullName != ''"> FullName = #{fullName},</if>
-            UpdateDate = #{updateDate}
+            <if test="admin.password != null and admin.password != ''"> Password = #{admin.password},</if>
+            <if test="admin.email != null and admin.email != ''">Email = #{admin.email},</if>
+            <if test="admin.fullName != null and admin.fullName != ''"> FullName = #{admin.fullName},</if>
+            <if test="admin.imgURL != null and admin.imgURL != ''"> ImgUrl = #{admin.imgURL},</if>
+            <if test="admin.imgHash != null and admin.imgHash != ''"> ImgHash = #{admin.imgHash},</if>
+            UpdateDate = #{date}
         </trim>
         <where>
-            AdminID = #{adminID}
+            AdminID = #{admin.adminID}
         </where>
     </update>
 
