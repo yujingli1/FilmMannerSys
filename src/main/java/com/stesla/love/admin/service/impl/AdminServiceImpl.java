@@ -30,12 +30,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void update(Admin admin) {
-        // 对密码进行加密(使用MD5加密)
-        String s = DigestUtils.md5DigestAsHex(admin.getPassword().getBytes());
-        admin.setPassword(s);
         java.util.Date date = new java.util.Date();
         java.sql.Date sqldate = new java.sql.Date(date.getTime());
-        adminMapper.update(admin,sqldate);
+        adminMapper.updateInfo(admin,sqldate);
     }
 
     @Override
@@ -44,6 +41,11 @@ public class AdminServiceImpl implements AdminService {
         String s = DigestUtils.md5DigestAsHex(password.getBytes());
         Admin admin = adminMapper.findAdminByUsername(username);
         return s.equals(admin.getPassword());
+    }
+
+    @Override
+    public Admin selectAdminByAdminID(int adminId) {
+        return adminMapper.selectAdminByAdminID(adminId);
     }
 
 }

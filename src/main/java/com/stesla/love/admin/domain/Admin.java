@@ -10,6 +10,8 @@ import com.alibaba.fastjson2.JSONObject;
  *     Email VARCHAR(100) NOT NULL UNIQUE,
  *     FullName VARCHAR(100),
  *     RegistrationDate DATE NOT NULL
+ *     UpdateDate DATE NOT NULL
+ *     ImgURL VARCHAR(255)
  * );
  */
 public class Admin {
@@ -20,6 +22,24 @@ public class Admin {
     private String fullName;
     private String registrationDate;
     private String updateDate;
+    private String imgURL;
+    private String imgHash;
+
+    public String getImgHash() {
+        return imgHash;
+    }
+
+    public void setImgHash(String imgHash) {
+        this.imgHash = imgHash;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 
     public String getUpdateDate() {
         return updateDate;
@@ -32,7 +52,7 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(int adminID, String username, String password, String email, String fullName, String registrationDate, String updateDate) {
+    public Admin(int adminID, String username, String password, String email, String fullName, String registrationDate, String updateDate,String imgURL,String imgHash) {
         this.adminID = adminID;
         this.username = username;
         this.password = password;
@@ -40,6 +60,8 @@ public class Admin {
         this.fullName = fullName;
         this.registrationDate = registrationDate;
         this.updateDate = updateDate;
+        this.imgURL = imgURL;
+        this.imgHash = imgHash;
     }
 
     public int getAdminID() {
