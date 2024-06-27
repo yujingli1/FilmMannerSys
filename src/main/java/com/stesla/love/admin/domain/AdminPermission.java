@@ -1,5 +1,8 @@
 package com.stesla.love.admin.domain;
 
+import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
+
 /**
  * CREATE TABLE AdminPermissions (
  *     AdminID INT,
@@ -39,9 +42,6 @@ public class AdminPermission {
 
     @Override
     public String toString() {
-        return "AdminPermission{" +
-                "adminID=" + adminID +
-                ", permissionID=" + permissionID +
-                '}';
+        return JSONObject.toJSONString(this);
     }
 }
