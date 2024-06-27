@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stesla.love.movie.mapper.MovieMapper">
+    <resultMap id="MovieResult" type="Movie">
+        <result column="MovieID" property="movieID"/>
+        <result column="Title" property="title"/>
+        <result column="DirectorID" property="directorID"/>
+        <result column="GenreID" property="genreID"/>
+        <result column="ReleaseDate" property="releaseDate"/>
+        <result column="Duration" property="duration"/>
+        <result column="Synopsis" property="synopsis"/>
+        <result column="ImgUrl" property="imgUrl"/>
+        <result column="ImgHash" property="imgHash"/>
+    </resultMap>
+
+    <sql id="selectAdminVo">
+        SELECT * FROM movies
+    </sql>
+
+    <insert id="addMovie">
+        INSERT INTO movies
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="movie.title != null and movie.title != ''"> Title,</if>
+            <if test="movie.directorID != null and movie.directorID != ''"> DirectorID,</if>
+            <if test="movie.genreID != null and movie.genreID != ''"> GenreID,</if>
+            <if test="movie.releaseDate != null and movie.releaseDate != ''"> ReleaseDate,</if>
+            <if test="movie.duration != null and movie.duration != ''"> Duration,</if>
+            <if test="movie.synopsis != null and movie.synopsis != ''"> Synopsis,</if>
+            <if test="movie.imgUrl != null and movie.imgUrl != ''"> ImgUrl,</if>
+            <if test="movie.imgHash != null and movie.imgHash != ''"> ImgHash,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="movie.title != null and movie.title != ''"> #{movie.title},</if>
+            <if test="movie.directorID != null and movie.directorID != ''"> #{movie.directorID},</if>
+            <if test="movie.genreID != null and movie.genreID != ''"> #{movie.genreID},</if>
+            <if test="movie.releaseDate != null and movie.releaseDate != ''"> #{movie.releaseDate},</if>
+            <if test="movie.duration != null and movie.duration != ''"> #{movie.duration},</if>
+            <if test="movie.synopsis != null and movie.synopsis != ''"> #{movie.synopsis},</if>
+            <if test="movie.imgUrl != null and movie.imgUrl != ''"> #{movie.imgUrl},</if>
+            <if test="movie.imgHash != null and movie.imgHash != ''"> #{movie.imgHash},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMovie">
+        UPDATE movies
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="movie.title != null and movie.title != ''"> Title = #{movie.title},</if>
+            <if test="movie.directorID != null and movie.directorID != ''"> DirectorID = #{movie.directorID},</if>
+            <if test="movie.genreID != null and movie.genreID != ''"> GenreID = #{movie.genreID},</if>
+            <if test="movie.releaseDate != null and movie.releaseDate != ''"> ReleaseDate = #{movie.releaseDate},</if>
+            <if test="movie.duration != null and movie.duration != ''"> Duration = #{movie.duration},</if>
+            <if test="movie.synopsis != null and movie.synopsis != ''"> Synopsis = #{movie.synopsis},</if>
+            <if test="movie.imgUrl != null and movie.imgUrl != ''"> ImgUrl = #{movie.imgUrl},</if>
+            <if test="movie.imgHash != null and movie.imgHash != ''"> ImgHash = #{movie.imgHash},</if>
+        </trim>
+        WHERE MovieID = #{movie.movieID}
+    </update>
+
+    <delete id="deleteMovie">
+        DELETE FROM movies WHERE MovieID = #{movieID}
+    </delete>
+
+    <select id="getMovieByID" resultType="com.stesla.love.movie.domain.Movie">
+        <include refid="selectAdminVo"/>
+        WHERE MovieID = #{movieID}
+    </select>
+
+    <select id="getMovies" resultType="com.stesla.love.movie.domain.Movie">
+        <include refid="selectAdminVo"/>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getMovieByType" resultType="com.stesla.love.movie.domain.Movie">
+        <include refid="selectAdminVo"/>
+        WHERE GenreID = #{genreID}
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM movies
+    </select>
+    <select id="getCountByType" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM movies WHERE GenreID = #{genreID}
+    </select>
+
+
+</mapper>

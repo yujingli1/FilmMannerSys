@@ -1,5 +1,7 @@
 package com.stesla.love.admin.domain;
 
+import com.alibaba.fastjson2.JSONObject;
+
 /**
  * CREATE TABLE Permissions (
  *     PermissionID INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,10 +49,6 @@ public class Permission {
 
     @Override
     public String toString() {
-        return "Permission{" +
-                "permissionID=" + permissionID +
-                ", permissionName='" + permissionName + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return JSONObject.toJSONString(this);
     }
 }
