@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stesla.love.movie.mapper.GenresMapper">
+    <resultMap id="GenresResult" type="Genres">
+        <result column="GenreID" property="genreID"/>
+        <result column="GenreName" property="genreName"/>
+    </resultMap>
+
+    <sql id="selectGenresVo">
+        SELECT * FROM genres
+    </sql>
+
+    <insert id="addGenre">
+        INSERT INTO genres
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="genre.genreName != null and genre.genreName != ''"> GenreName,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="genre.genreName != null and genre.genreName != ''"> #{genre.genreName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGenre">
+        UPDATE genres
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="genre.genreName != null and genre.genreName != ''"> GenreName = #{genre.genreName},</if>
+        </trim>
+        WHERE GenreID = #{genre.genreID}
+    </update>
+
+    <delete id="deleteGenre">
+        DELETE FROM genres
+        WHERE GenreID = #{genreID}
+    </delete>
+
+    <select id="selectGenreByID" resultMap="GenresResult">
+        SELECT * FROM genres
+        WHERE GenreID = #{genreID}
+    </select>
+
+    <select id="getGenres" resultMap="GenresResult">
+        <include refid="selectGenresVo"/>
+    </select>
+</mapper>
