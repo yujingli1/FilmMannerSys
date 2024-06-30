@@ -68,18 +68,18 @@ public class MovieController {
 
     @PostMapping("/info")
     public Map<String, Object> getMovies(@RequestBody Map<String, Object> map) {
-        int limit = (int) map.get("limit");
-        int offset = (int) map.get("offset");
-        return ResultUtil.success(movieService.getMovies(limit,offset)).getMap();
+        int limit = (int) map.get("pageSize");
+        int offset = (int) map.get("pageNum");
+        return ResultUtil.success(movieService.getMovies(limit,offset*limit-offset)).getMap();
     }
 
     @PostMapping("/info/type")
     public Map<String, Object> getMovieByType(@RequestBody Map<String, Object> map) {
-        int limit = (int) map.get("limit");
-        int offset = (int) map.get("offset");
+        int limit = (int) map.get("pageSize");
+        int offset = (int) map.get("pageNum");
         int genreID = (int) map.get("genreID");
 
-        return ResultUtil.success(movieService.getMovieByType(genreID,limit,offset)).getMap();
+        return ResultUtil.success(movieService.getMovieByType(genreID,limit,offset*limit-offset)).getMap();
     }
 
     @GetMapping("/count")
