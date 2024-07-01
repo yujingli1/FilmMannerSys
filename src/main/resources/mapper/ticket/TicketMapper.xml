@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stesla.love.ticket.mapper.TicketMapper">
+
+    <select id="getAllTickets" resultType="com.stesla.love.ticket.domain.Ticket">
+        SELECT t.*, m.Title FROM tickets t
+                                         JOIN movies m ON t.MovieID = m.MovieID
+    </select>
+
+    <select id="getTicketsByMovieName" resultType="com.stesla.love.ticket.domain.Ticket">
+        SELECT t.*, m.Title FROM tickets t
+                                         JOIN movies m ON t.MovieID = m.MovieID
+        WHERE m.Title = #{movieName}
+    </select>
+
+    <select id="getTicketCountByMovieAndTime" resultType="int">
+        SELECT COUNT(*) FROM tickets
+        WHERE MovieID= #{movieId}
+          AND ShowTime BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="getMovieNameByMovieId" resultType="java.lang.String">
+        SELECT Title FROM movies
+        WHERE MovieID = #{movieId}
+    </select>
+    <select id="getHallSize" resultType="int">
+        SELECT HallSize FROM halls
+        where HallID =#{hallId}
+
+    </select>
+    <select id="getTicketCountByHallAndTime" resultType="int">
+        SELECT COUNT(*)FROM tickets
+        WHERE HallID=#{hallId}
+         AND Showtime=#{showTime}
+    </select>
+
+    <insert id="insertTicket">
+        INSERT INTO tickets (UserID, MovieID, ShowTime, PurchaseDate, SeatNumber, HallId, Price)
+        VALUES (#{userId}, #{movieId}, #{showTime}, #{purchaseTime}, #{seatNumber}, #{hallId}, #{price})
+    </insert>
+</mapper>
