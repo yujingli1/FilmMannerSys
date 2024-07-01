@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stesla.love.user.mapper.UserMapper">
+
+    <resultMap id="UserResult" type="com.stesla.love.user.domain.User">
+        <result column="UserID" property="userId"/>
+        <result column="Username" property="userName"/>
+        <result column="Password" property="password"/>
+        <result column="Email" property="email"/>
+        <result column="RegistrationDate" property="registerDate"/>
+        <result column="MembershipLevel" property="membershipLevel"/>
+    </resultMap>
+
+    <sql id="selectUserVo">
+        SELECT * FROM users
+    </sql>
+
+    <select id="findByUsername" resultMap="UserResult">
+        SELECT * FROM users WHERE Username = #{username}
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO users (Username, Password, Email, RegistrationDate, MembershipLevel)
+        VALUES (#{userName}, #{password}, #{email}, #{registerDate}, #{membershipLevel})
+    </insert>
+
+    <update id="update">
+        UPDATE users
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="password != null and password != ''"> Password = #{password},</if>
+            <if test="email != null and email != ''"> Email = #{email},</if>
+            <if test="userName != null and userName != ''"> Username = #{userName},</if>
+            <if test="membershipLevel != null"> MembershipLevel = #{membershipLevel},</if>
+        </trim>
+        <where>
+            UserID = #{userId}
+        </where>
+    </update>
+
+    <select id="findById" resultMap="UserResult">
+        SELECT * FROM users WHERE UserID = #{userId}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM users WHERE UserID = #{userId}
+    </delete>
+
+    <select id="findAll" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+    </select>
+</mapper>
